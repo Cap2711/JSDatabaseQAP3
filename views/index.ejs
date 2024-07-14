@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chelsey's Grocery - Products</title>
+</head>
+<body>
+    <h1>Products</h1>
+    <a href="/add">Add New Product</a>
+    <ul>
+        <% products.forEach(function(product) { %>
+            <li>
+                <%= product.name %> - $<%= product.price.toFixed(2) %>
+                <a href="/edit/<%= product.id %>">Edit</a>
+                <form action="/delete/<%= product.id %>" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
