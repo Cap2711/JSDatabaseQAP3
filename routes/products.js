@@ -18,9 +18,9 @@ router.post('/add', addNewProduct);
 
 // Edit product form
 router.get('/edit/:id', editProductForm);
-router.post('/edit/:id', updateExistingProduct); // Use POST for simplicity
+router.post('/edit/:id', updateExistingProduct); 
 
 // Delete a product
-router.post('/delete/:id', deleteExistingProduct); // Use POST for simplicity
+router.post('/delete/:id', deleteExistingProduct); 
 
 module.exports = router;

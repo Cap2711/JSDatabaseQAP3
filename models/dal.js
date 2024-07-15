@@ -13,7 +13,7 @@ const getAllProducts = async () => {
     const res = await pool.query('SELECT *, price::numeric AS price FROM products');
     return res.rows.map(row => ({
         ...row,
-        price: parseFloat(row.price) // Ensure price is a number
+        price: parseFloat(row.price)
     }));
 };
 
