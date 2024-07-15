@@ -1,17 +1,46 @@
+// routes/api.js
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/apiController');
+const { getAllProducts, addProduct, updateProduct, deleteProduct } = require('../dal'); // Import DAL functions
 
-// get all products
-router.get('/products', getAllProducts);
+// Get all products
+router.get('/products', async (req, res) => {
+  try {
+    const products = await getAllProducts();
+    res.json(products);
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+});
 
-// add new
-router.post('/products', addProduct);
+// Add a new product
+router.post('/products', async (req, res) => {
+  try {
+    const newProduct = await addProduct(req.body);
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(400).send('Bad Request');
+  }
+});
 
-// update
-router.put('/products/:id', updateProduct);
+// Update a product
+router.put('/products/:id', async (req, res) => {
+  try {
+    const updatedProduct = await updateProduct(req.params.id, req.body);
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(404).send('Product Not Found');
+  }
+});
 
-//delete
-router.delete('/products/:id', deleteProduct);
+// Delete a product
+router.delete('/products/:id', async (req, res) => {
+  try {
+    await deleteProduct(req.params.id);
+    res.status(204).send(); 
+  } catch (error) {
+    res.status(404).send('Product Not Found');
+  }
+});
 
 module.exports = router;
