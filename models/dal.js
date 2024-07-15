@@ -1,18 +1,27 @@
 const { Pool } = require('pg');
 
-
 const pool = new Pool({
-    user: 'your_username',
+    user: 'postgres',
     host: 'localhost',
-    database: 'your_database_name',
-    password: 'your_password',
+    database: 'Qap3',
+    password: 'Keyin2021',
     port: 5432,
 });
 
-// get all products
+// Get all products
 const getAllProducts = async () => {
-    const res = await pool.query('SELECT * FROM products');
-    return res.rows;
+    const res = await pool.query('SELECT *, price::numeric AS price FROM products');
+    return res.rows.map(row => ({
+        ...row,
+        price: parseFloat(row.price) // Ensure price is a number
+    }));
+};
+
+
+// Get a product by ID
+const getProductById = async (id) => {
+    const res = await pool.query('SELECT * FROM products WHERE id = $1', [id]);
+    return res.rows[0];
 };
 
 // Add a new product
@@ -34,6 +43,7 @@ const deleteProduct = async (id) => {
 
 module.exports = {
     getAllProducts,
+    getProductById,
     addProduct,
     updateProduct,
     deleteProduct,

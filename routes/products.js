@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {
+const { 
     displayProducts,
     addProductForm,
     addNewProduct,
     editProductForm,
     updateExistingProduct,
-    deleteExistingProduct
+    deleteExistingProduct 
 } = require('../controllers/productsController');
 
 // Display products
@@ -18,11 +18,9 @@ router.post('/add', addNewProduct);
 
 // Edit product form
 router.get('/edit/:id', editProductForm);
+router.post('/edit/:id', updateExistingProduct); // Use POST for simplicity
 
-// Update product
-router.put('/edit/:id', updateExistingProduct);
-
-// Delete product
-router.delete('/delete/:id', deleteExistingProduct);
+// Delete a product
+router.post('/delete/:id', deleteExistingProduct); // Use POST for simplicity
 
 module.exports = router;
