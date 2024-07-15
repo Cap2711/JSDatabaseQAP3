@@ -23,7 +23,7 @@ const updateExistingProduct = async (req, res) => {
 // Delete a product from API
 const deleteExistingProduct = async (req, res) => {
     await deleteProduct(req.params.id);
-    res.sendStatus(204); 
+    res.sendStatus(204);
 };
 
 module.exports = {

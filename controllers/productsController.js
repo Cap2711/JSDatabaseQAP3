@@ -1,39 +1,53 @@
-const { getAllProducts, addProduct, updateProduct, deleteProduct } = require('../models/dal');
+const { getAllProducts, addProduct, updateProduct, deleteProduct, getProductById } = require('../models/dal');
 
-// Display products
 const displayProducts = async (req, res) => {
-    const products = await getAllProducts();
-    res.render('index', { products });
+    try {
+        const products = await getAllProducts(); 
+        console.log(products); 
+        res.render('index', { products });
+    } catch (error) {
+        console.error(error); 
+        res.status(500).send('Server Error');
+    }
 };
 
 // Display form to add product
 const addProductForm = (req, res) => {
-    res.render('addProduct');
+    res.render('addProduct'); 
 };
 
 // Add a new product
 const addNewProduct = async (req, res) => {
     const { name, price } = req.body;
-    await addProduct(name, price);
-    res.redirect('/');
+    await addProduct(name, price); 
+    res.redirect('/'); 
 };
 
 // Edit product form
 const editProductForm = async (req, res) => {
-   
+    try {
+        const product = await getProductById(req.params.id);
+        if (!product) {
+            return res.status(404).send('Product Not Found');
+        }
+        res.render('editProduct', { product });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
 };
 
 // Update a product
 const updateExistingProduct = async (req, res) => {
     const { name, price } = req.body;
-    await updateProduct(req.params.id, name, price);
-    res.redirect('/');
+    await updateProduct(req.params.id, name, price); 
+    res.redirect('/'); 
 };
 
 // Delete a product
 const deleteExistingProduct = async (req, res) => {
     await deleteProduct(req.params.id);
-    res.redirect('/');
+    res.redirect('/'); 
 };
 
 module.exports = {
